@@ -1,0 +1,11 @@
+Text editor
+
+This template is a simple bare-bones text editor with a single level undo, cut, copy and paste and basic file opening and closing. It is also basically the same as described in the Yabadabbdoo tutorial and in the ebook "Programming with yab"
+
+This template requires no external libraries.
+
+The Centred Text Editor differs from the regular one in only one respect - it always appears in the exact centre of your screen, regardless of what resolution you use. The size of the editing window can be adjusted by changing the relevant variables in the prologue section.
+
+194 lines of code
+7 subroutines
+

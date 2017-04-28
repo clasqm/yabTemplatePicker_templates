@@ -1,0 +1,9 @@
+sub OpenWindow()
+	//Setup the main window here
+	GetCoordinates()
+	window open startx,starty to endx,endy, "MainWindow", ProgramName$
+	textedit 0,20 to winwidth, winheight, "EditSpace", 3, "MainWindow" //leave 20 pixels for the menu
+	 textedit set "EditSpace", "wordwrap", 0
+	MakeMenu()
+end sub
+

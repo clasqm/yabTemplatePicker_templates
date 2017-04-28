@@ -1,0 +1,8 @@
+Text editor
+
+This template is a simple bare-bones text editor with a single level undo, cut, copy and paste and basic file opening and closing. It is also basically the same as described in the Yabadabbdoo tutorial and in the ebook "Programming with yab"
+
+This template requires no external libraries.
+
+172 lines of code
+6 subroutines

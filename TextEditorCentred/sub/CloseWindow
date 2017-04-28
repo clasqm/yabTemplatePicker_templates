@@ -1,0 +1,6 @@
+sub CloseWindow()
+	//Close down the main window
+	NewFile()
+	window close "MainWindow"
+end sub
+

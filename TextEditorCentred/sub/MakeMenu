@@ -1,0 +1,14 @@
+sub MakeMenu()
+	//Create menu in MainWindow
+	menu "File", "Quit", "Q", "MainWindow"
+	menu "File", "New", "N", "MainWindow"
+	menu "File", "Open", "O", "MainWindow"
+	menu "File", "Save", "S", "MainWindow"
+	menu "Edit", "Undo/Redo", "Z", "MainWindow"
+	menu "Edit", "Cut", "X", "MainWindow"
+	menu "Edit", "Copy", "Z", "MainWindow"
+	menu "Edit", "Paste", "Z", "MainWindow"
+	menu "Edit", "Select All", "A", "MainWindow"
+	menu "Help", "About", "", "MainWindow"
+end sub
+

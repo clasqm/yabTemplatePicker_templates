@@ -1,0 +1,8 @@
+sub OpenWindow()
+	//Setup the main window here
+	window open 100,100 to 600,500, "MainWindow", ProgramName$
+	textedit 0,20 to 499, 399, "EditSpace", 3, "MainWindow"
+	 textedit set "EditSpace", "wordwrap", 0
+	MakeMenu()
+end sub
+

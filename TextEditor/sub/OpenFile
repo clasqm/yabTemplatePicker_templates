@@ -1,0 +1,15 @@
+sub OpenFile()
+	local file2open$, anewline$
+	NewFile()
+	file2open$ = filepanel "load-file", "Open Which File?", "/boot/home"
+	if file2open$ <> "" then
+		open file2open$ for reading as #1
+		while(not(eof(1)))
+			line input #1 anewline$
+			textedit add  "EditSpace", anewline$ + "\n"
+		wend
+		close #1
+		textedit set "EditSpace", "gotoline", 1
+		endif
+end sub
+

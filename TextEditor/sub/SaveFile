@@ -1,0 +1,12 @@
+sub SaveFile()
+	local file2save$, filename$
+	file2save$ = textedit get$ "EditSpace"
+	if file2save$ <> "" then
+		filename$ = filepanel "save-file", "Save File As ...", "/boot/home"
+		if filename$= "" return
+		open filename$ for writing as #1
+		print #1 file2save$
+		close #1
+	endif
+end sub
+

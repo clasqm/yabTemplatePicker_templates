@@ -1,0 +1,9 @@
+sub NewFile()
+	local sos
+	if  textedit get$ "EditSpace" <> "" then
+		sos = alert "Save Current Text First?", "Yes", "No", "", "none"
+		if sos = 1 SaveFile()
+		textedit clear "EditSpace"
+	endif
+end sub
+

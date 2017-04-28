@@ -1,0 +1,54 @@
+
+//Yabadabbadoo notification
+########DO NOT RENAME THIS FILE!########
+//Yabadabbadoo needs it to function.
+//This does not apply if you are editing in the Offical IDE
+
+//Main Message Loop
+dim msg$(1)
+while(not leavingLoop)
+	nCommands = token(message$, msg$(), "|")
+	for everyCommand = 1 to nCommands
+		if(DEBUG and msg$(everyCommand)<>"") print msg$(everyCommand)
+		switch(msg$(everyCommand))
+			case "_QuitRequested":
+			case "MainWindow:_QuitRequested":
+			case "MainWindow:File:Quit":
+				leavingLoop = true
+				break
+			case "MainWindow:File:Save":
+				SaveFile()
+				break
+			case "MainWindow:File:New":
+				NewFile()
+				break
+			case "MainWindow:File:Open":
+				OpenFile()
+				break
+			case "MainWindow:Edit:Undo/Redo":
+				textedit set "EditSpace", "undo"
+				break
+			case "MainWindow:Edit:Cut":
+				textedit set "EditSpace", "cut"
+				break
+			case "MainWindow:Edit:Copy":
+				textedit set "EditSpace", "copy"
+				break
+			case "MainWindow:Edit:Paste":
+				textedit set "EditSpace", "paste"
+				break
+			case "MainWindow:Edit:Select All":
+				textedit set "EditSpace", "select-all"
+				break
+			case "MainWindow:Help:About":
+				Alert ProgramName$ + " " + ProgramVersion$ + "\n" + "by " + AuthorName$ +"\n\n" + ProgramBriefDescription$ + "\n" + ProgramLicense$ + "\n" + ProgramAcknowledgements$, "OK", "none"
+			default:
+				break
+		end switch
+	next everyCommand
+wend
+
+CloseWindow()
+
+end
+
