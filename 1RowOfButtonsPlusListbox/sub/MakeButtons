@@ -1,0 +1,34 @@
+sub MakeButtons()
+	local starty, endy
+	starty = 25: endy= starty + 30
+	////////////////////////////////////////////////////////////////////////////////////////
+	//By using variables, we ensure that the buttons are
+	//evenly spaced and the same size
+	////////////////////////////////////////////////////////////////////////////////////////
+	button 5,starty to  135, endy, "FirstButton", "The first button", "MainWindow"
+	starty = starty + 35: endy= starty + 30
+	button 5,starty to  135, endy, "SecondtButton", "The second button", "MainWindow"
+	starty = starty + 35: endy= starty + 30
+	button 5,starty to  135, endy, "ThirdButton", "The third button", "MainWindow"
+	starty = starty + 35: endy= starty + 30
+	button 5,starty to  135, endy, "FourthButton", "The fourth button", "MainWindow"
+	starty = starty + 35: endy= starty + 30
+	button 5,starty to  135, endy, "FifthButton", "The fifth button", "MainWindow"
+	starty = starty + 35: endy= starty + 30
+	button 5,starty to  135, endy, "SixthtButton", "The sixth button", "MainWindow"
+	starty = starty + 35: endy= starty + 30
+	button 5,starty to  135, endy, "SeventhButton", "The seventh button", "MainWindow"
+	starty = starty + 35: endy= starty + 30
+	button 5,starty to  135, endy, "EighthButton", "The eighth button", "MainWindow"
+	starty = starty + 35: endy= starty + 30
+	button 5,starty to  135, endy, "NinthButton", "The ninth button", "MainWindow"
+	starty = starty + 35: endy= starty + 30
+	button 5,starty to  135, endy, "TenthButton", "The tenth button", "MainWindow"
+	starty = starty + 35: endy= starty + 30
+	button 5,starty to  135, endy, "EleventhButton", "The elventh button", "MainWindow"
+	starty = starty + 35: endy= starty + 30
+	button 5,starty to  135, endy, "TwelfthButton", "The twelfth button", "MainWindow"
+	starty = starty + 35: endy= starty + 30
+	button 5,starty to  135, endy, "ExitButton", "Quit", "MainWindow"
+end sub
+

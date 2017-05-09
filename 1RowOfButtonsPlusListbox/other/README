@@ -1,0 +1,11 @@
+1RowOfButtonsPlusListbox Template
+by: Michel Clasquin-Johnson
+
+This template creates a window with twelve non-functional buttons, a functional Exit button, a rudimentary menu and a listbox.
+
+For demonstration purposes, the listbox will contain a listing of the home directory.
+
+The template can be adapted to display and manipulate simple databases.
+
+Subroutines: 6
+Lines of code: 233

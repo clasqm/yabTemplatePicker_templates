@@ -1,0 +1,88 @@
+
+//Yabadabbadoo notification
+########DO NOT RENAME THIS FILE!########
+//Yabadabbadoo needs it to function.
+//Of course, this does not apply if you are editing in the official yab IDE.
+
+//Main Message Loop
+dim msg$(1)
+while(not leavingLoop)
+	nCommands = token(message$, msg$(), "|")
+	for everyCommand = 1 to nCommands
+		if(DEBUG and msg$(everyCommand)<>"") print msg$(everyCommand)
+		switch(msg$(everyCommand))
+			////////////////////////////////////////////////////////////////////////////////////////
+			//code to handle menu items
+			////////////////////////////////////////////////////////////////////////////////////////
+			case "_QuitRequested"
+			case "MainWindow:_QuitRequested"
+			case "MainWindow:File:Quit"
+			case "ExitButton"
+				leavingLoop = true
+				break
+			case "MainWindow:Help:About":
+				Alert ProgramName$ + " " + ProgramVersion$ + "\n" + "by " + AuthorName$ +"\n\n" + ProgramBriefDescription$ + "\n" + ProgramLicense$ + "\n" + ProgramAcknowledgements$, "OK", "none"
+			////////////////////////////////////////////////////////////////////////////////////////
+			//code to handle button presses - except for the Quit button
+			//which we shoehorned in above
+			////////////////////////////////////////////////////////////////////////////////////////
+			case "FirstButton"
+				//events that happen when this button is pressed come here
+				break
+			case "SecondButton"
+				//events that happen when this button is pressed come here
+				break
+			case "ThirdButton"
+				//events that happen when this button is pressed come here
+				break
+			case "FourthButton"
+				//events that happen when this button is pressed come here
+				break
+			case "FifthButton"
+				//events that happen when this button is pressed come here
+				break
+			case "SixthButton"
+				//events that happen when this button is pressed come here
+				break
+			case "SeventhButton"
+				//events that happen when this button is pressed come here
+				break
+			case "EighthButton"
+				//events that happen when this button is pressed come here
+				break
+			case "NinthButton"
+				//events that happen when this button is pressed come here
+				break
+			case "TenthButton"
+				//events that happen when this button is pressed come here
+				break
+			case "EleventhButton"
+				//events that happen when this button is pressed come here
+				break
+			case "TwelfthButton"
+				//events that happen when this button is pressed come here
+				break
+			default
+				break
+		end switch
+		////////////////////////////////////////////////////////////////////////////////////////
+		//let's set up some conditions for clicking on list items.
+		//Obviously you will replace the alerts with your own code
+		////////////////////////////////////////////////////////////////////////////////////////
+		if instr(msg$(everyCommand), "TheList:_Invoke:") then
+			SelectedItem=listbox get "TheList"
+			SelectedItem$ = listbox get$ "TheList", SelectedItem
+			alert "You double-clicked on " + SelectedItem$, "OK", "info"
+		elseif instr(msg$(everyCommand), "TheList:_Select:") then
+			SelectedItem=listbox get "TheList"
+			SelectedItem$ = listbox get$ "TheList", SelectedItem
+			alert "You clicked once on " + SelectedItem$, "OK", "info"
+		
+		endif
+	next everyCommand
+wend
+
+CloseWindow()
+
+end
+

@@ -1,0 +1,13 @@
+sub FillListbox()
+	////////////////////////////////////////////////////////////////////////////////////////
+	//For demonstration purposes, we will just grab a listing
+	//from the home directory and fill the listbox with it
+	////////////////////////////////////////////////////////////////////////////////////////
+	local listing$, listing, w$(1)
+	listing$ = system$("ls -1 ~")
+	listing = token(listing$, w$(), "\n")
+	for f = 1 to listing
+		listbox add "TheList", f, w$(f)
+	next f
+end sub
+
