@@ -1,0 +1,5 @@
+sub TestGraphic()
+	system("mimeset -F '" + TheFile$ + "'")
+	return instr(system$("catattr -d BEOS:TYPE '"+ TheFile$ + "'"), "image/")
+end sub
+

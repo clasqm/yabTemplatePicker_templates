@@ -68,7 +68,7 @@ if peek("argument")<>0 then
 	TheFile$ = peek$("argument")
 	OpenWindow(1)
 else
-	GetFilename$()
+	GetFilename()
 	OpenWindow(0)
 endif
  
@@ -99,6 +99,11 @@ while(not leavingLoop)
 			default:
 				break
 		end switch
+		if instr(msg$(everyCommand), "Preview:_Dropped:") then
+			TheFile$ = mid$(msg$(everyCommand), 18)
+			DrawEmptyPreview()
+			if TestGraphic() DrawPreview(0)
+		endif
 	next everyCommand
 wend
 
@@ -112,17 +117,32 @@ sub CloseWindow()
 	end
 end sub
 
+sub DoIt()
+	MakeBackup()
+
+end sub
+
 sub DrawEmptyPreview()
 	local viewheight, viewwidth
 	viewheight = view get "Preview", "height"
 	viewwidth = view get "Preview", "width"
-	draw set "highcolor", 255,255,255, "Preview"
+	draw set "highcolor", 216,216,216, "Preview"
 	draw rect 0,0 to viewwidth, viewheight, "Preview"
 	draw set "highcolor", 0,0,0, "Preview"
 end sub
 
-sub DrawPreview()
-
+sub DrawPreview(sequence)
+	local viewheight, viewwidth, loaderror, tip$
+	viewheight = view get "Preview", "height"
+	viewwidth = view get "Preview", "width"
+	loaderror = Draw image 0,0 to viewwidth, -1, TheFile$, "Preview"
+	if loaderror alert "An error has occurred. This graphic cannot be displayed", "Ok", "info"
+	tip$ = TheFile$ + "\n"
+	tip$ = tip$ + "Last modified: " + left$(system$("filedate " + TheFile$), 9) + "\n"
+	tip$ = tip$ + "File size:  " + str$(val(system$("filesize " + TheFile$))/1024) + " Kilobytes\n" 
+	tip$ = tip$ + "Dimensions: " + GetGeometry$()
+	if not(sequence) tip$ = tip$ + "\nDrop a file here to start on a new image."
+	tooltip "Preview", tip$
 end sub
 
 sub GetCoordinates()
@@ -143,26 +163,73 @@ sub GetCoordinates()
 	endy = starty + winheight
 end sub
 
-sub GetFilename$()
+sub GetFilename()
 		local isagraphic
 		while(isagraphic =0 or TheFile$ = "")
 			TheFile$ = filepanel "Load-File", "Image to load?", "/boot/home"
 			if TheFile$ = "" CloseWindow()
-			system("mimeset -F '" + TheFile$ + "'")
-			isagraphic = instr(system$("catattr -d BEOS:TYPE '"+ TheFile$ + "'"), "image/")
-			if TheFile$ <> "" and isagraphic = 0 alert TheFile$ + " does not look like an image file! Try again.", "Ok", "warning"
+			if TestGraphic() then
+				isagraphic = 1
+			else
+				isagraphic = 0
+				alert TheFile$ + " does not look like an image file! Try again.", "Ok", "warning"
+			endif
 		wend
+		return isagraphic
 end sub
 
-sub MakeButtons()
-
-
-
+sub GetGeometry$()
+	local w$(6), num,TheString$
+	TheString$ = system$("imagsize '" + TheFile$ +"'")
+	print TheString$
+	num = token(TheString$, w$())
+	for f = 1 to num
+		print w$(f)
+		if instr(w$(f), "geom=") return mid$(w$(f), 6)
+	next f
 end sub
 
-sub MakeMenu()
+sub MakeBackup()
+	system("cp -f  '" + TheFile$ + "' " + TempDir$())
+end sub
+
+sub MakeButtons(sequence)
+	local bottomrowx1, bottomrowx2, bottomrowy, midrowx1, midrowx2, midrowy, toprowx1, toprowx2, toprowy
+	bottomrowy = winheight -30: midrowy = winheight -60: toprowy = winheight -90
+	bottomrowx1 = 5: midrowx1 = 5: toprowx1 = 5
+	bottomrowx2 = winwidth/2 + 10: midrowx2 = winwidth/2 + 10: toprowx2 = winwidth/2 + 10
+	if sequence then 
+		button toprowx1, toprowy to toprowx2-10, toprowy + 25, "doitandquitbutton", "DO IT!", "MainWindow" 
+	else
+		button toprowx1, toprowy to toprowx2-10, toprowy + 25, "doitbutton", "DO IT!", "MainWindow" 
+	endif
+	button toprowx2, toprowy to winwidth - toprowx1, toprowy + 25, "revertbutton", "Revert", "MainWindow" 	
+	button midrowx1, midrowy to midrowx2-10, midrowy + 25, "viewbutton", "View", "MainWindow" 
+	button midrowx2, midrowy to winwidth - midrowx1, midrowy + 25, "savedefaultbutton", "Save defaults", "MainWindow" 
+	button bottomrowx1, bottomrowy to bottomrowx2-10, bottomrowy + 25, "savebutton", "Save", "MainWindow" 
+	button bottomrowx2, bottomrowy to winwidth - bottomrowx1, bottomrowy + 25, "saveasbutton", "Save As ...", "MainWindow" 	
+	if sequence then
+		option set "savebutton", "enabled", 0
+		option set "saveasbutton", "enabled", 0
+		option set "revertbutton", "enabled", 0
+		option set "viewbutton", "enabled", 0
+	endif
+end sub
+
+sub MakeMenu(sequence)
 	//Create menu in MainWindow
-	menu "File", "Quit", "Q", "MainWindow"
+	if sequence then
+		menu "File", "Perform Action and Quit", "Q", "MainWindow"
+	else
+		menu "File", "Quit", "Q", "MainWindow"
+		menu "File", "Open", "O", "MainWindow"
+		menu "File", "Save", "S", "MainWindow"
+		menu "File", "Save As ...", "", "MainWindow"
+		menu "Edit", "Perform Action", "A", "MainWindow"
+		menu "Edit", "Revert Action", "U", "MainWindow"
+
+	endif
+	menu "Edit", "Save Defaults", "", "MainWindow"
 	menu "Help", "About", "", "MainWindow"
 end sub
 
@@ -172,22 +239,28 @@ sub OpenWindow(sequence)
 	window open startx,starty to endx,endy, "MainWindow", ProgramName$
 	window set "MainWindow", "flags", "not-resizable"
 	window set "MainWindow", "flags", "not-zoomable"
-	MakeMenu()
-	if sequence then
-		menu set "File", "Quit", "disable", "MainWindow"
-		window set "MainWindow", "look", "modal"
-	endif
+	if sequence window set "MainWindow", "look", "modal"
+	//if sequence window set "MainWindow", "flags", "not-closable"
+	MakeMenu(sequence)
 	text 0,23 to winwidth, 36, "PreviewText", "Image Preview", "MainWindow"
 	text set "PreviewText", "align-center"
 	draw rect 4,39 to winwidth - 4, winwidth - 10 + 41, "MainWindow"
 	view 5, 40 to winwidth - 5, winwidth - 10 + 40, "Preview", "MainWindow"
+	if not(sequence) view dropzone "Preview"
 	DrawEmptyPreview()
+	DrawPreview(sequence)
+	MakeButtons(sequence)
 end sub
 
 sub ReadDefaults()
 //use this to read ConfigFile$
 //Details will differ between projects.
 
+end sub
+
+sub TestGraphic()
+	system("mimeset -F '" + TheFile$ + "'")
+	return instr(system$("catattr -d BEOS:TYPE '"+ TheFile$ + "'"), "image/")
 end sub
 
 sub WriteDefaults()

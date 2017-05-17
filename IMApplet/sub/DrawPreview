@@ -1,4 +1,14 @@
-sub DrawPreview()
-
+sub DrawPreview(sequence)
+	local viewheight, viewwidth, loaderror, tip$
+	viewheight = view get "Preview", "height"
+	viewwidth = view get "Preview", "width"
+	loaderror = Draw image 0,0 to viewwidth, -1, TheFile$, "Preview"
+	if loaderror alert "An error has occurred. This graphic cannot be displayed", "Ok", "info"
+	tip$ = TheFile$ + "\n"
+	tip$ = tip$ + "Last modified: " + left$(system$("filedate " + TheFile$), 9) + "\n"
+	tip$ = tip$ + "File size:  " + str$(val(system$("filesize " + TheFile$))/1024) + " Kilobytes\n" 
+	tip$ = tip$ + "Dimensions: " + GetGeometry$()
+	if not(sequence) tip$ = tip$ + "\nDrop a file here to start on a new image."
+	tooltip "Preview", tip$
 end sub
 

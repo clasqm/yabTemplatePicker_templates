@@ -1,0 +1,15 @@
+sub GetFilename()
+		local isagraphic
+		while(isagraphic =0 or TheFile$ = "")
+			TheFile$ = filepanel "Load-File", "Image to load?", "/boot/home"
+			if TheFile$ = "" CloseWindow()
+			if TestGraphic() then
+				isagraphic = 1
+			else
+				isagraphic = 0
+				alert TheFile$ + " does not look like an image file! Try again.", "Ok", "warning"
+			endif
+		wend
+		return isagraphic
+end sub
+

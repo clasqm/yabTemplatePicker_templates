@@ -68,7 +68,7 @@ if peek("argument")<>0 then
 	TheFile$ = peek$("argument")
 	OpenWindow(1)
 else
-	GetFilename$()
+	GetFilename()
 	OpenWindow(0)
 endif
  

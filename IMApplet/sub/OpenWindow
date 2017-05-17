@@ -4,15 +4,16 @@ sub OpenWindow(sequence)
 	window open startx,starty to endx,endy, "MainWindow", ProgramName$
 	window set "MainWindow", "flags", "not-resizable"
 	window set "MainWindow", "flags", "not-zoomable"
-	MakeMenu()
-	if sequence then
-		menu set "File", "Quit", "disable", "MainWindow"
-		window set "MainWindow", "look", "modal"
-	endif
+	if sequence window set "MainWindow", "look", "modal"
+	//if sequence window set "MainWindow", "flags", "not-closable"
+	MakeMenu(sequence)
 	text 0,23 to winwidth, 36, "PreviewText", "Image Preview", "MainWindow"
 	text set "PreviewText", "align-center"
 	draw rect 4,39 to winwidth - 4, winwidth - 10 + 41, "MainWindow"
 	view 5, 40 to winwidth - 5, winwidth - 10 + 40, "Preview", "MainWindow"
+	if not(sequence) view dropzone "Preview"
 	DrawEmptyPreview()
+	DrawPreview(sequence)
+	MakeButtons(sequence)
 end sub
 

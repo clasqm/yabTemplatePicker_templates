@@ -1,6 +1,23 @@
-sub MakeButtons()
-
-
-
+sub MakeButtons(sequence)
+	local bottomrowx1, bottomrowx2, bottomrowy, midrowx1, midrowx2, midrowy, toprowx1, toprowx2, toprowy
+	bottomrowy = winheight -30: midrowy = winheight -60: toprowy = winheight -90
+	bottomrowx1 = 5: midrowx1 = 5: toprowx1 = 5
+	bottomrowx2 = winwidth/2 + 10: midrowx2 = winwidth/2 + 10: toprowx2 = winwidth/2 + 10
+	if sequence then 
+		button toprowx1, toprowy to toprowx2-10, toprowy + 25, "doitandquitbutton", "DO IT!", "MainWindow" 
+	else
+		button toprowx1, toprowy to toprowx2-10, toprowy + 25, "doitbutton", "DO IT!", "MainWindow" 
+	endif
+	button toprowx2, toprowy to winwidth - toprowx1, toprowy + 25, "revertbutton", "Revert", "MainWindow" 	
+	button midrowx1, midrowy to midrowx2-10, midrowy + 25, "viewbutton", "View", "MainWindow" 
+	button midrowx2, midrowy to winwidth - midrowx1, midrowy + 25, "savedefaultbutton", "Save defaults", "MainWindow" 
+	button bottomrowx1, bottomrowy to bottomrowx2-10, bottomrowy + 25, "savebutton", "Save", "MainWindow" 
+	button bottomrowx2, bottomrowy to winwidth - bottomrowx1, bottomrowy + 25, "saveasbutton", "Save As ...", "MainWindow" 	
+	if sequence then
+		option set "savebutton", "enabled", 0
+		option set "saveasbutton", "enabled", 0
+		option set "revertbutton", "enabled", 0
+		option set "viewbutton", "enabled", 0
+	endif
 end sub
 

@@ -1,0 +1,11 @@
+sub GetGeometry$()
+	local w$(6), num,TheString$
+	TheString$ = system$("imagsize '" + TheFile$ +"'")
+	print TheString$
+	num = token(TheString$, w$())
+	for f = 1 to num
+		print w$(f)
+		if instr(w$(f), "geom=") return mid$(w$(f), 6)
+	next f
+end sub
+

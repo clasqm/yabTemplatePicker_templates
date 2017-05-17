@@ -1,6 +1,17 @@
-sub MakeMenu()
+sub MakeMenu(sequence)
 	//Create menu in MainWindow
-	menu "File", "Quit", "Q", "MainWindow"
+	if sequence then
+		menu "File", "Perform Action and Quit", "Q", "MainWindow"
+	else
+		menu "File", "Quit", "Q", "MainWindow"
+		menu "File", "Open", "O", "MainWindow"
+		menu "File", "Save", "S", "MainWindow"
+		menu "File", "Save As ...", "", "MainWindow"
+		menu "Edit", "Perform Action", "A", "MainWindow"
+		menu "Edit", "Revert Action", "U", "MainWindow"
+
+	endif
+	menu "Edit", "Save Defaults", "", "MainWindow"
 	menu "Help", "About", "", "MainWindow"
 end sub
 

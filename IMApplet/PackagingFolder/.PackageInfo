@@ -2,10 +2,8 @@ name				Package
 version				0.1-1
 architecture		x86_gcc2
 
-
 summary			"short description"
 Description			"longer description"
-
 
 packager			"name of packager <whoever@email.com>"
 vendor				"vendor name"
@@ -14,3 +12,11 @@ licenses			"license"
 provides {
 					Package = 0.1-1
 }
+requires {
+					yab
+					imagemagick
+					filedate
+					filesize
+					imagsize
+}
+

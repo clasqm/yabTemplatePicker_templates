@@ -21,6 +21,11 @@ while(not leavingLoop)
 			default:
 				break
 		end switch
+		if instr(msg$(everyCommand), "Preview:_Dropped:") then
+			TheFile$ = mid$(msg$(everyCommand), 18)
+			DrawEmptyPreview()
+			if TestGraphic() DrawPreview(0)
+		endif
 	next everyCommand
 wend
 
