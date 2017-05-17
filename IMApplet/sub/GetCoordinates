@@ -1,0 +1,18 @@
+sub GetCoordinates()
+	local screenwidth, screenheight, wmidpoint, hmidpoint
+	//first find out if the program is trying to create a window larger than the screen
+	while(winwidth > peek("desktopwidth"))
+		winwidth = winwidth -20
+	wend
+	while(winheight > peek("desktopheight"))
+		winheight = winheight -20
+	wend
+	//Now calculate the four corners of the window
+	screenwidth = peek("desktopwidth"): wmidpoint = int(screenwidth/2)
+	screenheight = peek("desktopheight"): hmidpoint = int(screenheight/2)
+	startx = wmidpoint - int(winwidth/2)
+	endx = startx + winwidth
+	starty = hmidpoint - int(winheight/2)
+	endy = starty + winheight
+end sub
+

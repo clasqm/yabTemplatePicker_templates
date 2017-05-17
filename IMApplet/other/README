@@ -1,0 +1,17 @@
+IMApplet template
+by: Michel Clasquin-Johnson
+
+This template was designed specifically for creating front-ends to ImageMagick it can, however be adapted to many other uses.
+
+The template will accept a filename as the only parameter and will print that filename to stdout again when it closes, making it possible to pipe a file from one applet to another. If no filename parameter is supplied, it will open a filepanel on startup. The file will be checked if it is a suitable filetype ONLY if you select if from the filepanel.
+
+If you supply the filename as a parameter and it contains spaces, be sure to surround it with quotation marks, e.g:
+
+IMApplet "/boot/home/documents/Rose kennedy.jpg"  OR
+IMApplet '/boot/home/documents/Rose kennedy.jpg'
+
+The final output to stdout will be in the latter format regardless of how it was input.
+
+The QUIT menu command and close button are disabled if a parameter is given, since it is then assumed that this is part of a sequence of transformations
+
+

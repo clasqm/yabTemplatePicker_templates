@@ -1,0 +1,203 @@
+#!/bin/env yab
+################################
+############# Prologue #############
+################################
+
+//Yabadabbadoo notification
+########DO NOT RENAME THIS FILE!########
+//Yabadabbadoo needs it to function.
+//Of course, this does not apply if you are editing in the official yab IDE.
+ 
+##Fill in these fields with your own particulars.
+##The variables will be used in the About Box and in naming the program.
+ 
+ProgramName$ = "IMApplet"
+AuthorName$ = "Joe Bloggs"
+ProgramVersion$ = "V0.1"
+ProgramBriefDescription$ = "Image Magick template"
+ProgramLicense$ = "Public Domain"
+ProgramAcknowledgements$ ="With thanks to Pete Goodeve"
+
+import libclasqm_main
+ 
+//*************************
+//*****Global Variables****
+//*************************
+ 
+## Technically, yab does not require you to declare global variables,
+##It just is a really, really good idea to do it anyway.
+// set DEBUG = 1 to print out all messages on the console
+DEBUG = 1
+//IMPORTANT
+//change this to DEBUG = 0 when you are ready to bind the program for distribution
+//Without this change, piping will not work
+
+TheFile$ = "" 
+
+//change the next setting to suit your project!
+ConfigFile$= "/boot/home/settings/IMapplets/imapplet.conf" 
+
+//The dimensions of the window
+startx = 0 // horizontal starting point of window
+endx = 0 // horizontal end point of window
+starty = 0 // vertical starting point of window
+endy = 0 // verticall end point of window
+
+//You can adjust the figures below to change the dimensions of the window
+winwidth = 280
+winheight = 500
+
+//Image-Magic-specific variables
+SaveCommand$ = "convert"
+SaveAsCommand$ = "mogrify"
+
+Action$ = ""
+
+##########################
+######Preliminary Commands#####
+##########################
+
+## Commands to run before the Main Loop come here.
+## e.g. setting up a window with a menu.
+
+system("mkdir -p /boot/home/config/settings/IMapplets/")
+
+if FileExists(ConfigFile$) ReadDefaults()
+
+if peek("argument")<>0 then 
+	TheFile$ = peek$("argument")
+	OpenWindow(1)
+else
+	GetFilename$()
+	OpenWindow(0)
+endif
+ 
+ 
+ 
+#######End of Prologue#######
+
+
+//Yabadabbadoo notification
+########DO NOT RENAME THIS FILE!########
+//Yabadabbadoo needs it to function.
+//Of course, this does not apply if you are editing in the official yab IDE.
+
+//Main Message Loop
+dim msg$(1)
+while(not leavingLoop)
+	nCommands = token(message$, msg$(), "|")
+	for everyCommand = 1 to nCommands
+		if(DEBUG and msg$(everyCommand)<>"") print msg$(everyCommand)
+		switch(msg$(everyCommand))
+			case "_QuitRequested":
+			case "MainWindow:_QuitRequested":
+			case "MainWindow:File:Quit":
+				CloseWindow()
+				break
+			case "MainWindow:Help:About":
+				Alert ProgramName$ + " " + ProgramVersion$ + "\n" + "by " + AuthorName$ +"\n\n" + ProgramBriefDescription$ + "\n" + ProgramLicense$ + "\n" + ProgramAcknowledgements$, "OK", "none"
+			default:
+				break
+		end switch
+	next everyCommand
+wend
+
+CloseWindow()
+
+sub CloseWindow()
+	//Close down the main window and exit
+	//This should be the ONLY exit point
+	if window get "MainWindow", "exists" window close "MainWindow"
+	print "'" + TheFile$ + "'"
+	end
+end sub
+
+sub DrawEmptyPreview()
+	local viewheight, viewwidth
+	viewheight = view get "Preview", "height"
+	viewwidth = view get "Preview", "width"
+	draw set "highcolor", 255,255,255, "Preview"
+	draw rect 0,0 to viewwidth, viewheight, "Preview"
+	draw set "highcolor", 0,0,0, "Preview"
+end sub
+
+sub DrawPreview()
+
+end sub
+
+sub GetCoordinates()
+	local screenwidth, screenheight, wmidpoint, hmidpoint
+	//first find out if the program is trying to create a window larger than the screen
+	while(winwidth > peek("desktopwidth"))
+		winwidth = winwidth -20
+	wend
+	while(winheight > peek("desktopheight"))
+		winheight = winheight -20
+	wend
+	//Now calculate the four corners of the window
+	screenwidth = peek("desktopwidth"): wmidpoint = int(screenwidth/2)
+	screenheight = peek("desktopheight"): hmidpoint = int(screenheight/2)
+	startx = wmidpoint - int(winwidth/2)
+	endx = startx + winwidth
+	starty = hmidpoint - int(winheight/2)
+	endy = starty + winheight
+end sub
+
+sub GetFilename$()
+		local isagraphic
+		while(isagraphic =0 or TheFile$ = "")
+			TheFile$ = filepanel "Load-File", "Image to load?", "/boot/home"
+			if TheFile$ = "" CloseWindow()
+			system("mimeset -F '" + TheFile$ + "'")
+			isagraphic = instr(system$("catattr -d BEOS:TYPE '"+ TheFile$ + "'"), "image/")
+			if TheFile$ <> "" and isagraphic = 0 alert TheFile$ + " does not look like an image file! Try again.", "Ok", "warning"
+		wend
+end sub
+
+sub MakeButtons()
+
+
+
+end sub
+
+sub MakeMenu()
+	//Create menu in MainWindow
+	menu "File", "Quit", "Q", "MainWindow"
+	menu "Help", "About", "", "MainWindow"
+end sub
+
+sub OpenWindow(sequence)
+	//Setup the main window here
+	GetCoordinates()
+	window open startx,starty to endx,endy, "MainWindow", ProgramName$
+	window set "MainWindow", "flags", "not-resizable"
+	window set "MainWindow", "flags", "not-zoomable"
+	MakeMenu()
+	if sequence then
+		menu set "File", "Quit", "disable", "MainWindow"
+		window set "MainWindow", "look", "modal"
+	endif
+	text 0,23 to winwidth, 36, "PreviewText", "Image Preview", "MainWindow"
+	text set "PreviewText", "align-center"
+	draw rect 4,39 to winwidth - 4, winwidth - 10 + 41, "MainWindow"
+	view 5, 40 to winwidth - 5, winwidth - 10 + 40, "Preview", "MainWindow"
+	DrawEmptyPreview()
+end sub
+
+sub ReadDefaults()
+//use this to read ConfigFile$
+//Details will differ between projects.
+
+end sub
+
+sub WriteDefaults()
+//use this to write ConfigFile$
+//Details will differ between projects.
+
+end sub
+
+########################################
+###DATA statements, if any, come here###
+########################################
+
+

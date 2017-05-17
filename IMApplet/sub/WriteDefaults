@@ -1,0 +1,6 @@
+sub WriteDefaults()
+//use this to write ConfigFile$
+//Details will differ between projects.
+
+end sub
+

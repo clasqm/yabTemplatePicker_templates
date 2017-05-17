@@ -1,0 +1,6 @@
+sub ReadDefaults()
+//use this to read ConfigFile$
+//Details will differ between projects.
+
+end sub
+

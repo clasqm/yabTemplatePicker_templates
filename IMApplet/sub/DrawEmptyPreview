@@ -1,0 +1,9 @@
+sub DrawEmptyPreview()
+	local viewheight, viewwidth
+	viewheight = view get "Preview", "height"
+	viewwidth = view get "Preview", "width"
+	draw set "highcolor", 255,255,255, "Preview"
+	draw rect 0,0 to viewwidth, viewheight, "Preview"
+	draw set "highcolor", 0,0,0, "Preview"
+end sub
+
