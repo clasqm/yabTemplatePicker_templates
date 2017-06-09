@@ -1,4 +1,7 @@
 sub DrawEmptyPreview()
+	//fill preview box with grey so that if you load a picture
+	//with different dimensions, the old one does not 
+	//bleed through on the edges
 	local viewheight, viewwidth
 	viewheight = view get "Preview", "height"
 	viewwidth = view get "Preview", "width"

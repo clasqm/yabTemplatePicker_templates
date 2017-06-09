@@ -11,7 +11,9 @@ sub MakeMenu(sequence)
 		menu "Edit", "Revert Action", "U", "MainWindow"
 
 	endif
+
 	menu "Edit", "Save Defaults", "", "MainWindow"
 	menu "Help", "About", "", "MainWindow"
+	menu "File", "View", "V", "MainWindow"
 end sub
 

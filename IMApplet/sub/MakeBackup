@@ -1,4 +1,10 @@
 sub MakeBackup()
+	local BackupFile$
+	//make a backup copy before you do anything else
+	//comment this out if you don't want it
+	//Preview actions can be carried out on the backup
+	//before you commit to save
 	system("cp -f  '" + TheFile$ + "' " + TempDir$())
+	BackupFile$ = TempDir$() + "/" + ProjectName$
 end sub
 

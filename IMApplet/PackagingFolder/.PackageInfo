@@ -18,5 +18,6 @@ requires {
 					filedate
 					filesize
 					imagsize
+					libclasqm
 }
 

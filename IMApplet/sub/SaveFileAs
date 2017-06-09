@@ -1,0 +1,8 @@
+sub SaveFileAs()
+	//do the action and save under a new filename
+	//for Imagemagick, use the convert command
+	//just changing the extension will change the filetype
+	//so follow up with a system call to mimeset -F
+
+end sub
+

@@ -12,6 +12,11 @@ IMApplet '/boot/home/documents/Rose kennedy.jpg'
 
 The final output to stdout will be in the latter format regardless of how it was input.
 
-The QUIT menu command and close button are disabled if a parameter is given, since it is then assumed that this is part of a sequence of transformations
+Apps based on this template will act differently depending on how they are used. If a filename parameter is given, the assumption is that it is part of a sequence of commands, in which case only those options are enabled that allow the app to do its thing, pass on the filename and close down. For example, the QUIT menu command and close button are disabled if a parameter is given. This will continue throughout a sequence.
 
+If it is run as a standalone utility, it allows you to load new files (try drag-n-drop) and work on those. Canceling a LOAD operation will always shut the app down - it is just an applet, after all.
+
+If you do not need certain buttons and menu items, rather deactivate than remove them. This will give applets a certain uniformity of appearance.
+
+IMPORTANT: set DEBUG to 0 before compiling or binding, or even before distributing as a script. Not doing that will interfere with running an applet as a sequence.
 

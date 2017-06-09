@@ -26,6 +26,10 @@ import libclasqm_main
  
 ## Technically, yab does not require you to declare global variables,
 ##It just is a really, really good idea to do it anyway.
+//This template uses more global variables than it really needs
+//but it is not something that is going to run for hours
+//slobbering up memory
+
 // set DEBUG = 1 to print out all messages on the console
 DEBUG = 1
 //IMPORTANT
@@ -48,10 +52,15 @@ winwidth = 280
 winheight = 500
 
 //Image-Magic-specific variables
+//delete these if you are going to write a front-end 
+//to an other graphics utility
 SaveCommand$ = "convert"
 SaveAsCommand$ = "mogrify"
 
+//Miscellaneous
 Action$ = ""
+ProjectBasePath$ = "/boot/home"
+ProjectName$=""
 
 ##########################
 ######Preliminary Commands#####
@@ -71,8 +80,6 @@ else
 	GetFilename()
 	OpenWindow(0)
 endif
- 
- 
- 
+  
 #######End of Prologue#######
 

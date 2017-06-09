@@ -1,5 +1,8 @@
 sub DoIt()
+	//This should be used for any graphics-changing actions that take place
+	//BEFORE Saving. Perhaps as a preview
+	//But many ImageMagick actions can be done directly as a Save or SaveAs
+	//Keep in mind that in sequence mode an applet only has a do-it-and-save function
 	MakeBackup()
-
 end sub
 

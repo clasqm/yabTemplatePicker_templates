@@ -1,0 +1,6 @@
+sub SaveFile()
+	//do the action and save to the same filename
+	//for Imagemagick, use the mogrify command
+
+end sub
+

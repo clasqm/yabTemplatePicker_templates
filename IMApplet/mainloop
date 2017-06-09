@@ -16,6 +16,39 @@ while(not leavingLoop)
 			case "MainWindow:File:Quit":
 				CloseWindow()
 				break
+			case "MainWindow:File:Open"
+				GetFilename()
+				DrawEmptyPreview()
+				DrawPreview(0)
+				break
+			case "MainWindow:File:Perform Action and Quit"
+			case "doitandquitbutton"
+				//
+				break
+			case "MainWindow:File:Save"
+			case "savebutton"
+				//
+				break
+			case "MainWindow:File:Save As ..."
+			case "saveasbutton"
+				//
+				break
+			case "MainWindow:Edit:Perform Action"
+			case "doitbutton"
+				//
+				break
+			case "MainWindow:Edit:Revert Action"
+			case "revertbutton"
+				//
+				break
+			case "MainWindow:Edit:Save Defaults"
+			case "savedefaultbutton"
+				//
+				break
+			case "MainWindow:File:View"
+			case "viewbutton"
+				system("/boot/system/apps/ShowImage '" + TheFile$ + "' &")
+				break
 			case "MainWindow:Help:About":
 				Alert ProgramName$ + " " + ProgramVersion$ + "\n" + "by " + AuthorName$ +"\n\n" + ProgramBriefDescription$ + "\n" + ProgramLicense$ + "\n" + ProgramAcknowledgements$, "OK", "none"
 			default:

@@ -5,7 +5,6 @@ sub OpenWindow(sequence)
 	window set "MainWindow", "flags", "not-resizable"
 	window set "MainWindow", "flags", "not-zoomable"
 	if sequence window set "MainWindow", "look", "modal"
-	//if sequence window set "MainWindow", "flags", "not-closable"
 	MakeMenu(sequence)
 	text 0,23 to winwidth, 36, "PreviewText", "Image Preview", "MainWindow"
 	text set "PreviewText", "align-center"

@@ -1,6 +1,7 @@
 sub ReadDefaults()
 //use this to read ConfigFile$
 //Details will differ between projects.
+//Test for default file existence with FileExists()
 
 end sub
 

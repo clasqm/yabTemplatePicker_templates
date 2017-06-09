@@ -1,7 +1,7 @@
 sub GetFilename()
-		local isagraphic
+		local isagraphic, w$(1), tokens
 		while(isagraphic =0 or TheFile$ = "")
-			TheFile$ = filepanel "Load-File", "Image to load?", "/boot/home"
+			TheFile$ = filepanel "Load-File", "Image to load?", ProjectBasePath$
 			if TheFile$ = "" CloseWindow()
 			if TestGraphic() then
 				isagraphic = 1
@@ -10,6 +10,14 @@ sub GetFilename()
 				alert TheFile$ + " does not look like an image file! Try again.", "Ok", "warning"
 			endif
 		wend
-		return isagraphic
+	//set base path to the previously used so you don't
+	//need to navigate from /boot/home every time
+	tokens = split(TheFile$,w$(),"/")
+	ProjectBasePath$ = ""  //directory of the graphic
+	for f = 1 to tokens-1
+		ProjectBasePath$ = ProjectBasePath$ + "/" + w$(f)
+	next f
+	ProjectName$=w$(tokens) //filename of the graphic
+	return isagraphic
 end sub
 

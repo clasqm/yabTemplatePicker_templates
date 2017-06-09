@@ -1,4 +1,6 @@
 sub TestGraphic()
+	//see if the loaded or dropped file is reported by the system 
+	//as a graphic. Not infallible, but at least we are trying
 	system("mimeset -F '" + TheFile$ + "'")
 	return instr(system$("catattr -d BEOS:TYPE '"+ TheFile$ + "'"), "image/")
 end sub

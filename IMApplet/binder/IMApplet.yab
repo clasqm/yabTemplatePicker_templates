@@ -26,6 +26,10 @@ import libclasqm_main
  
 ## Technically, yab does not require you to declare global variables,
 ##It just is a really, really good idea to do it anyway.
+//This template uses more global variables than it really needs
+//but it is not something that is going to run for hours
+//slobbering up memory
+
 // set DEBUG = 1 to print out all messages on the console
 DEBUG = 1
 //IMPORTANT
@@ -48,10 +52,15 @@ winwidth = 280
 winheight = 500
 
 //Image-Magic-specific variables
+//delete these if you are going to write a front-end 
+//to an other graphics utility
 SaveCommand$ = "convert"
 SaveAsCommand$ = "mogrify"
 
+//Miscellaneous
 Action$ = ""
+ProjectBasePath$ = "/boot/home"
+ProjectName$=""
 
 ##########################
 ######Preliminary Commands#####
@@ -71,9 +80,7 @@ else
 	GetFilename()
 	OpenWindow(0)
 endif
- 
- 
- 
+  
 #######End of Prologue#######
 
 
@@ -93,6 +100,39 @@ while(not leavingLoop)
 			case "MainWindow:_QuitRequested":
 			case "MainWindow:File:Quit":
 				CloseWindow()
+				break
+			case "MainWindow:File:Open"
+				GetFilename()
+				DrawEmptyPreview()
+				DrawPreview(0)
+				break
+			case "MainWindow:File:Perform Action and Quit"
+			case "doitandquitbutton"
+				//
+				break
+			case "MainWindow:File:Save"
+			case "savebutton"
+				//
+				break
+			case "MainWindow:File:Save As ..."
+			case "saveasbutton"
+				//
+				break
+			case "MainWindow:Edit:Perform Action"
+			case "doitbutton"
+				//
+				break
+			case "MainWindow:Edit:Revert Action"
+			case "revertbutton"
+				//
+				break
+			case "MainWindow:Edit:Save Defaults"
+			case "savedefaultbutton"
+				//
+				break
+			case "MainWindow:File:View"
+			case "viewbutton"
+				system("/boot/system/apps/ShowImage '" + TheFile$ + "' &")
 				break
 			case "MainWindow:Help:About":
 				Alert ProgramName$ + " " + ProgramVersion$ + "\n" + "by " + AuthorName$ +"\n\n" + ProgramBriefDescription$ + "\n" + ProgramLicense$ + "\n" + ProgramAcknowledgements$, "OK", "none"
@@ -118,11 +158,17 @@ sub CloseWindow()
 end sub
 
 sub DoIt()
+	//This should be used for any graphics-changing actions that take place
+	//BEFORE Saving. Perhaps as a preview
+	//But many ImageMagick actions can be done directly as a Save or SaveAs
+	//Keep in mind that in sequence mode an applet only has a do-it-and-save function
 	MakeBackup()
-
 end sub
 
 sub DrawEmptyPreview()
+	//fill preview box with grey so that if you load a picture
+	//with different dimensions, the old one does not 
+	//bleed through on the edges
 	local viewheight, viewwidth
 	viewheight = view get "Preview", "height"
 	viewwidth = view get "Preview", "width"
@@ -164,9 +210,9 @@ sub GetCoordinates()
 end sub
 
 sub GetFilename()
-		local isagraphic
+		local isagraphic, w$(1), tokens
 		while(isagraphic =0 or TheFile$ = "")
-			TheFile$ = filepanel "Load-File", "Image to load?", "/boot/home"
+			TheFile$ = filepanel "Load-File", "Image to load?", ProjectBasePath$
 			if TheFile$ = "" CloseWindow()
 			if TestGraphic() then
 				isagraphic = 1
@@ -175,22 +221,35 @@ sub GetFilename()
 				alert TheFile$ + " does not look like an image file! Try again.", "Ok", "warning"
 			endif
 		wend
-		return isagraphic
+	//set base path to the previously used so you don't
+	//need to navigate from /boot/home every time
+	tokens = split(TheFile$,w$(),"/")
+	ProjectBasePath$ = ""  //directory of the graphic
+	for f = 1 to tokens-1
+		ProjectBasePath$ = ProjectBasePath$ + "/" + w$(f)
+	next f
+	ProjectName$=w$(tokens) //filename of the graphic
+	return isagraphic
 end sub
 
 sub GetGeometry$()
+	//get width and height data from imagsize utility
 	local w$(6), num,TheString$
 	TheString$ = system$("imagsize '" + TheFile$ +"'")
-	print TheString$
 	num = token(TheString$, w$())
 	for f = 1 to num
-		print w$(f)
 		if instr(w$(f), "geom=") return mid$(w$(f), 6)
 	next f
 end sub
 
 sub MakeBackup()
+	local BackupFile$
+	//make a backup copy before you do anything else
+	//comment this out if you don't want it
+	//Preview actions can be carried out on the backup
+	//before you commit to save
 	system("cp -f  '" + TheFile$ + "' " + TempDir$())
+	BackupFile$ = TempDir$() + "/" + ProjectName$
 end sub
 
 sub MakeButtons(sequence)
@@ -229,8 +288,10 @@ sub MakeMenu(sequence)
 		menu "Edit", "Revert Action", "U", "MainWindow"
 
 	endif
+
 	menu "Edit", "Save Defaults", "", "MainWindow"
 	menu "Help", "About", "", "MainWindow"
+	menu "File", "View", "V", "MainWindow"
 end sub
 
 sub OpenWindow(sequence)
@@ -240,7 +301,6 @@ sub OpenWindow(sequence)
 	window set "MainWindow", "flags", "not-resizable"
 	window set "MainWindow", "flags", "not-zoomable"
 	if sequence window set "MainWindow", "look", "modal"
-	//if sequence window set "MainWindow", "flags", "not-closable"
 	MakeMenu(sequence)
 	text 0,23 to winwidth, 36, "PreviewText", "Image Preview", "MainWindow"
 	text set "PreviewText", "align-center"
@@ -255,10 +315,27 @@ end sub
 sub ReadDefaults()
 //use this to read ConfigFile$
 //Details will differ between projects.
+//Test for default file existence with FileExists()
+
+end sub
+
+sub SaveFile()
+	//do the action and save to the same filename
+	//for Imagemagick, use the mogrify command
+
+end sub
+
+sub SaveFileAs()
+	//do the action and save under a new filename
+	//for Imagemagick, use the convert command
+	//just changing the extension will change the filetype
+	//so follow up with a system call to mimeset -F
 
 end sub
 
 sub TestGraphic()
+	//see if the loaded or dropped file is reported by the system 
+	//as a graphic. Not infallible, but at least we are trying
 	system("mimeset -F '" + TheFile$ + "'")
 	return instr(system$("catattr -d BEOS:TYPE '"+ TheFile$ + "'"), "image/")
 end sub
@@ -272,5 +349,4 @@ end sub
 ########################################
 ###DATA statements, if any, come here###
 ########################################
-
 
