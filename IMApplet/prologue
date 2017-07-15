@@ -61,6 +61,7 @@ SaveAsCommand$ = "mogrify"
 Action$ = ""
 ProjectBasePath$ = "/boot/home"
 ProjectName$=""
+hasdefaults = 0
 
 ##########################
 ######Preliminary Commands#####

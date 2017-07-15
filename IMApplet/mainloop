@@ -23,7 +23,10 @@ while(not leavingLoop)
 				break
 			case "MainWindow:File:Perform Action and Quit"
 			case "doitandquitbutton"
+				DisableWidgets()
 				//
+				//
+				CloseWindow()
 				break
 			case "MainWindow:File:Save"
 			case "savebutton"
@@ -35,7 +38,9 @@ while(not leavingLoop)
 				break
 			case "MainWindow:Edit:Perform Action"
 			case "doitbutton"
+				DisableWidgets()
 				//
+				EnableWidgets()
 				break
 			case "MainWindow:Edit:Revert Action"
 			case "revertbutton"

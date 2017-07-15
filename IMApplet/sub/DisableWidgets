@@ -1,0 +1,24 @@
+sub DisableWidgets()
+	if sequence then
+		menu set "File", "Perform Action and Quit", "disable", "MainWindow"
+		option set "doitandquitbutton", "enabled", 0
+	else
+		menu set "Edit", "Revert action", "disable", "MainWindow"
+		menu set "File", "Quit", "disable", "MainWindow"
+		menu set "File", "Open", "disable", "MainWindow"
+		menu set "File", "Save", "disable", "MainWindow"
+		option set "savebutton", "enabled", 0
+		menu set "File", "Save As ...", "disable", "MainWindow"
+		option set "saveasbutton", "enabled", 0
+		menu set "Edit", "Perform Action", "disable", "MainWindow"
+		option set "doitbutton", "enabled", 0
+		menu set "File", "View", "disable", "MainWindow"
+		option set "viewbutton", "enabled", 0
+	endif
+	if hasdefaults then
+		menu set "Edit", "Save defaults", "disable", "MainWindow"
+		option set "savedefaultbutton", "enabled", 0
+	endif
+	menu set "Help", "About", "disable", "MainWindow"
+end sub
+
